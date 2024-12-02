@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # debug command to check if the files are copied
-RUN ls
+RUN ls -la /app
 
 EXPOSE 5000
 
