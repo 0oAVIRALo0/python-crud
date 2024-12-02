@@ -6,7 +6,6 @@ COPY requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY /Users/aviralchauhan/web-development/cosmocloud/cert.pem /Users/aviralchauhan/web-development/cosmocloud/key.pem /app/
 COPY . /app
 
 # debug command to check if the files are copied
