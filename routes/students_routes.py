@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Path
 from config.database import collection_name
 from models.students_model import Student, StudentOptional
 from schemas.students_schemas import student_serializer
@@ -18,7 +18,7 @@ async def create_student(student: Student):
 
 # GET: List Students with filters
 @students_api_router.get("/students", status_code=200, summary="List students", description="An API to find a list of students. You can apply filters on this API by passing the query parameters as listed below.")
-async def list_students(country: str = Query(None), age: int = Query(None)):
+async def list_students(country: str = Query(None, description="To apply filter of country. If not given or empty, this filter should be applied."), age: int = Query(None, description="Only records which have age greater than equal to the provided age should be present in the result. If not given or empty, this filter should be applied.")):
 	try:
 		query = {}
 		if country:
@@ -45,7 +45,7 @@ async def list_students(country: str = Query(None), age: int = Query(None)):
 
 # GET: Fetch Student by ID
 @students_api_router.get("/students/{id}", status_code=200, summary="Fetch student")
-async def fetch_student(id: str):
+async def fetch_student(id: str = Path(..., description="The ID of the student previously created.")):
 	try:
 		student = collection_name.find_one({"_id": ObjectId(id)})
 		if not student:
